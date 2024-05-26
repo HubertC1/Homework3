@@ -66,21 +66,11 @@ class MyPortfolio:
         # Get the assets by excluding the specified column
         assets = self.price.columns[self.price.columns != self.exclude]
 
-        # Calculate the portfolio weights
+        # Allocate 100% of the portfolio to XLK
         self.portfolio_weights = pd.DataFrame(
-            index=self.price.index, columns=self.price.columns
+            index=self.price.index, columns=self.price.columns, data=0.0
         )
-
-        """
-        TODO: Complete Task 4 Below
-        """
-
-        """
-        TODO: Complete Task 4 Above
-        """
-
-        self.portfolio_weights.ffill(inplace=True)
-        self.portfolio_weights.fillna(0, inplace=True)
+        self.portfolio_weights["XLK"] = 1.0
 
     def calculate_portfolio_returns(self):
         # Ensure weights are calculated
