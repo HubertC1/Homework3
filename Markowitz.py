@@ -73,6 +73,7 @@ class EqualWeightPortfolio:
         """
         self.portfolio_weights.ffill(inplace=True)
         self.portfolio_weights.fillna(0, inplace=True)
+        # print(self.portfolio_weights)
 
     def calculate_portfolio_returns(self):
         # Ensure weights are calculated
@@ -115,16 +116,17 @@ class RiskParityPortfolio:
         # Calculate the portfolio weights
         self.portfolio_weights = pd.DataFrame(index=df.index, columns=df.columns)
 
-        """
-        TODO: Complete Task 2 Below
-        """
-
-        """
-        TODO: Complete Task 2 Above
-        """
+        for i in range(self.lookback+1, len(df)):
+            R_n = df_returns.copy()[assets].iloc[i - self.lookback:i]
+            vol = R_n.std()
+            inv_vol = 1 / vol
+            weights = inv_vol / inv_vol.sum()
+            self.portfolio_weights.loc[df.index[i], assets] = weights.values
 
         self.portfolio_weights.ffill(inplace=True)
         self.portfolio_weights.fillna(0, inplace=True)
+
+        # print(self.portfolio_weights)
 
     def calculate_portfolio_returns(self):
         # Ensure weights are calculated
@@ -146,6 +148,7 @@ class RiskParityPortfolio:
             self.calculate_portfolio_returns()
 
         return self.portfolio_weights, self.portfolio_returns
+
 
 
 """
